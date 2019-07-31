@@ -1,0 +1,43 @@
+button:
+  card:
+    type: custom:button-card
+    template: button
+    entity: "[[entity]]"
+    icon: "[[icon]]"
+    name: "[[name]]"
+    "[[show_last_changed1]]": "[[show_last_changed2]]"
+    "[[show_entity_picture1]]": "[[show_entity_picture2]]"
+    styles:
+      card:
+        - background-color: >
+            [[background-color]]
+      icon:
+        - color: >
+            [[colorstyle]]
+      custom_fields:
+        cpu:
+          - --text-color-sensor: "[[cpustyle]]"
+        ram:
+          - --text-color-sensor: "[[ramstyle]]"
+        sd:
+          - --text-color-sensor: "[[sdstyle]]"
+    custom_fields:
+      temp: >
+        [[tempfield]]
+      cpu: >
+        [[cpufield]]
+      ram: >
+        [[ramfield]]
+      sd: >
+        [[sdfield]]
+    state:
+      - value: "on"
+        "[[spin1]]": "[[spin2]]"
+        "[[icon1]]": "[[icon2]]"
+        styles:
+          icon:
+            - "[[animation1]]": "[[animation2]]"
+      - value: "off"
+        styles:
+          card:
+            - "[[opacity1]]": "[[opacity2]]"

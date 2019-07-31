@@ -1,0 +1,524 @@
+icon: "mdi:home"
+title: Home
+popup_cards: !include ../popup.yaml
+
+cards:
+  - type: "vertical-stack" #col1
+    cards:
+      - type: "horizontal-stack"
+        cards:
+          - template: button
+            type: "custom:decluttering-card"
+            variables:
+              - entity: binary_sensor.door
+              - icon: mdi:door-closed
+              - name: Door
+              - colorstyle: "[[[
+                  if (entity.state == 'on') return 'lime';
+                  else return 'deepskyblue';
+                  ]]]"
+              - tempfield: "[[[
+                  if (states['binary_sensor.door'].attributes.battery_level >= 100) return
+                  `<ha-icon icon='mdi:battery' style='width: 12px; height: 12px; color: yellow;'></ha-icon>
+                  <span>${states['binary_sensor.door'].attributes.battery_level}%</span>`;
+                  else if (states['binary_sensor.door'].attributes.battery_level < 10) return
+                  `<ha-icon icon='mdi:battery-alert' style='width: 12px; height: 12px; color: yellow;'></ha-icon>
+                  <span>${states['binary_sensor.door'].attributes.battery_level}%</span>`;
+                  else return `<ha-icon icon='mdi:battery-${Math.ceil(states['binary_sensor.door'].attributes.battery_level/10)*10}' style='width: 12px; height: 12px; color: yellow;'></ha-icon>
+                  <span>${states['binary_sensor.door'].attributes.battery_level}%</span>`;
+                  ]]]"
+              - cpufield: "[[[
+                  if (entity.state == 'on')
+                  return `<ha-icon icon='mdi:door' style='width: 12px; height: 12px; color: deepskyblue;'></ha-icon>
+                  <span><span style='color: var(--text-color-sensor);'>Open</span></span>`;
+                  else return `<ha-icon icon='mdi:door' style='width: 12px; height: 12px; color: deepskyblue;'></ha-icon>
+                  <span><span style='color: var(--text-color-sensor);'>Closed</span></span>`;
+                  ]]]"
+              - ramfield: ""
+              - sdfield: ""
+              - show_last_changed1: "show_last_changed"
+              - show_last_changed2: "true"
+              - opacity1: opacity
+              - opacity2: 1
+              - icon1: icon
+              - icon2: mdi:door-open
+              - cpustyle: "[[[
+                  if (entity.state == 'on') return 'lime';
+                  ]]]"
+
+          - template: button
+            type: "custom:decluttering-card"
+            variables:
+              - entity: switch.ac
+              - icon: mdi:fan
+              - name: AC
+              - colorstyle: "[[[
+                  if (states['climate.ac'].state == 'cool') return 'cyan';
+                  if (states['climate.ac'].state == 'heat') return 'magenta';
+                  else return 'deepskyblue';
+                  ]]]"
+              - tempfield: "[[[
+                  if (entity.state !== 'off')
+                  return `<ha-icon icon='mdi:flash-outline' style='width: 12px; height: 12px; color: yellow;'></ha-icon>
+                  <span>${Math.round(states['sensor.plug_main_ac_power'].state)}w</span>`;
+                  ]]]"
+              - cpufield: "[[[
+                  if (states['climate.ac'].state == 'off')
+                  return `<ha-icon icon='mdi:fan' style='width: 12px; height: 12px; color: deepskyblue;'></ha-icon>
+                  <span><span style='color: var(--text-color-sensor);'>${states['climate.ac'].state}</span></span>`;
+                  else return `<ha-icon icon='mdi:fan' style='width: 12px; height: 12px; color: deepskyblue;'></ha-icon>
+                  <span><span style='color: var(--text-color-sensor);'>${states['climate.ac'].state} ${states['climate.ac'].attributes.temperature} ${states['climate.ac'].attributes.fan_mode}</span></span>`
+                  ]]]"
+              - ramfield: "[[[
+                  return `<ha-icon icon='mdi:water-percent' style='width: 12px; height: 12px; color: deepskyblue;'></ha-icon>
+                  <span>Temp: <span style='color: var(--text-color-sensor);'>${states['sensor.inside_temperature'].state}°C</span></span>`
+                  ]]]"
+              - sdfield: "[[[
+                  return `<ha-icon icon='mdi:thermometer' style='width: 12px; height: 12px; color: deepskyblue;'></ha-icon>
+                  <span>Humidity: <span style='color: var(--text-color-sensor);'>${Math.round(states['sensor.inside_humidity'].state)}%</span></span>`
+                  ]]]"
+              - spin1: "spin"
+              - spin2: "true"
+              - opacity1: opacity
+              - opacity2: 0.5
+              - cpustyle: "[[[
+                  if (states['climate.ac'].state == 'cool') return 'cyan';
+                  if (states['climate.ac'].state == 'heat') return 'magenta';
+                  ]]]"
+              - ramstyle: "[[[
+                  if (states['sensor.inside_temperature'].state < 24) return 'cyan';
+                  if (states['sensor.inside_temperature'].state >= 24 && states['sensor.inside_temperature'].state < 26) return 'lime';
+                  else return 'magenta';
+                  ]]]"
+              - sdstyle: "[[[
+                  if (states['sensor.inside_humidity'].state < 40) return 'cyan';
+                  if (states['sensor.inside_humidity'].state >= 40 && states['sensor.inside_humidity'].state < 60) return 'lime';
+                  else return 'magenta';
+                  ]]]"
+
+          - template: button
+            type: "custom:decluttering-card"
+            variables:
+              - entity: switch.pc
+              - icon: mdi:desktop-tower-monitor
+              - name: PC
+              - colorstyle: "[[[
+                  if (entity.state == 'on') return 'lime';
+                  else return 'deepskyblue';
+                  ]]]"
+              - tempfield: "[[[
+                  if (entity.state !== 'off')
+                  return `<ha-icon icon='mdi:flash-outline' style='width: 12px; height: 12px; color: yellow;'></ha-icon>
+                  <span>${Math.round(states['sensor.plug_pc_power'].state)}w</span>`;
+                  ]]]"
+              - cpufield: "[[[
+                  return `<ha-icon icon='mdi:desktop-tower' style='width: 12px; height: 12px; color: deepskyblue;'></ha-icon>
+                  <span><span style='color: var(--text-color-sensor);'>${entity.state}</span></span>`;
+                  ]]]"
+              - ramfield: ""
+              - sdfield: ""
+              - opacity1: opacity
+              - opacity2: 0.5
+              - cpustyle: "[[[
+                  if (entity.state == 'on') return 'lime';
+                  ]]]"
+
+      - type: "horizontal-stack"
+        cards:
+          - template: button
+            type: "custom:decluttering-card"
+            variables:
+              - entity: "weather.dark_sky"
+              - icon: "[[[
+                  if (entity.state == 'partlycloudy') return 'mdi:weather-partlycloudy';
+                  if (entity.state == 'clear-night') return 'mdi:weather-night';
+                  if (entity.state == 'cloudy') return 'mdi:weather-cloudy';
+                  if (entity.state == 'overcast') return 'mdi:weather-cloudy-arrow-right';
+                  if (entity.state == 'fog') return 'mdi:weather-fog';
+                  if (entity.state == 'hail') return 'mdi:weather-hail';
+                  if (entity.state == 'lightning') return 'mdi:weather-lightning';
+                  if (entity.state == 'lightning-rainy') return 'mdi:weather-lightning-rainy';
+                  if (entity.state == 'pouring') return 'mdi:weather-pouring';
+                  if (entity.state == 'rainy') return 'mdi:weather-rainy';
+                  if (entity.state == 'snowy') return 'mdi:weather-snowy';
+                  if (entity.state == 'snowy-rainy') return 'mdi:weather-snowy-rainy';
+                  if (entity.state == 'sunny') return 'mdi:weather-sunny';
+                  if (entity.state == 'windy') return 'mdi:weather-windy';
+                  if (entity.state == 'windy-variant') return 'mdi:weather-windy-variant';
+                  ]]]"
+              - name: Weather
+              - colorstyle: "[[[
+                  if (entity.state == 'partlycloudy') return 'orange';
+                  if (entity.state == 'clear-night') return 'lime';
+                  if (entity.state == 'cloudy') return 'cyan';
+                  if (entity.state == 'overcast') return 'cyan';
+                  if (entity.state == 'fog') return 'magenta';
+                  if (entity.state == 'hail') return 'magenta';
+                  if (entity.state == 'lightning') return 'lime';
+                  if (entity.state == 'lightning-rainy') return 'lime';
+                  if (entity.state == 'pouring') return 'lime';
+                  if (entity.state == 'rainy') return 'lime';
+                  if (entity.state == 'snowy') return 'lime';
+                  if (entity.state == 'snowy-rainy') return 'lime';
+                  if (entity.state == 'sunny') return 'red';
+                  if (entity.state == 'windy') return 'cyan';
+                  if (entity.state == 'windy-variant') return 'cyan';
+                  ]]]"
+              - tempfield: "[[[
+                  var options = { hour: 'numeric', minute: 'numeric' };
+                  var sunrise_date = new Date(states['sun.sun'].attributes.next_rising);
+                  var sunrise_time = sunrise_date.toLocaleDateString('en-US', options).split(',')[1];
+                  var sunset_date = new Date(states['sun.sun'].attributes.next_setting);
+                  var sunset_time = sunset_date.toLocaleDateString('en-US', options).split(',')[1];
+                  return `<ha-icon icon='mdi:weather-sunset-up' style='width: 12px; height: 12px; color: yellow;'></ha-icon>
+                  <span style='align: left;'>${sunrise_time}</span>
+                  <br>
+                  <ha-icon icon='mdi:weather-sunset-down' style='width: 12px; height: 12px; color: yellow;'></ha-icon>
+                  <span style='align: left;'>${sunset_time}</span>`;
+                  ]]]"
+              - cpufield: "[[[
+                  return `<ha-icon icon='mdi:thermometer' style='width: 12px; height: 12px; color: deepskyblue;'></ha-icon>
+                  <span><span style='color: var(--text-color-sensor);'>${Math.round(entity.attributes.forecast[0].templow)}°C - ${Math.round(entity.attributes.forecast[0].temperature)}°C</span></span>`
+                  ]]]"
+              - ramfield: "[[[
+                  var degree = 45;
+                  var angle = entity.attributes.wind_bearing + 22.5;
+                  var direction = (angle >= 0 * degree && angle < 1 * degree) ? 'N' :
+                  (angle >= 1 * degree && angle < 2 * degree) ? 'NE' :
+                  (angle >= 2 * degree && angle < 3 * degree) ? 'E' :
+                  (angle >= 3 * degree && angle < 4 * degree) ? 'SE' :
+                  (angle >= 4 * degree && angle < 5 * degree) ? 'S' :
+                  (angle >= 5 * degree && angle < 6 * degree) ? 'W' :
+                  (angle >= 6 * degree && angle < 7 * degree) ? 'NW' : 'N';
+                  return `<ha-icon icon='mdi:weather-windy' style='width: 12px; height: 12px; color: deepskyblue;'></ha-icon>
+                  <span><span style='color: var(--text-color-sensor);'>${direction} ${Math.round((entity.attributes.wind_speed || 0))}kph</span></span>`
+                  ]]]"
+              - sdfield: "[[[
+                  return `<ha-icon icon='mdi:water-percent' style='width: 12px; height: 12px; color: deepskyblue;'></ha-icon>
+                  <span><span style='color: var(--text-color-sensor);'>${(entity.attributes.humidity || 0)}%
+                  <ha-icon icon='mdi:thermometer' style='width: 12px; height: 12px; color: deepskyblue;'></ha-icon>
+                  ${(entity.attributes.temperature || 0)}°C</span></span>`
+                  ]]]"
+
+          - template: button
+            type: "custom:decluttering-card"
+            variables:
+              - icon: mdi:lightbulb
+              - entity: light.light
+              - sd: sensor.omv_sd
+              - name: Light
+              - unitemp: ""
+              - colorstyle: "var(--button-card-light-color)"
+              - tempfield: "[[[
+                  if (entity.state == 'on')
+                  return `<ha-icon icon='mdi:lightbulb-on-outline' style='width: 12px; height: 12px; color: yellow;'></ha-icon>
+                  <span>${Math.round(entity.attributes.brightness*100/255)}%</span>`
+                  ]]]"
+              - cpufield: "[[[
+                  return `<ha-icon icon='mdi:lightbulb-outline' style='width: 12px; height: 12px; color: deepskyblue;'></ha-icon>
+                  <span><span style='color: var(--text-color-sensor);'>${entity.state}</span></span>`
+                  ]]]"
+              - ramfield: ""
+              - sdfield: ""
+              - opacity1: opacity
+              - opacity2: 0.5
+              - cpustyle: "[[[
+                  if (entity.state == 'on') return 'lime';
+                  ]]]"
+
+          - template: button
+            type: "custom:decluttering-card"
+            variables:
+              - entity: sensor.pi_temp
+              - icon: mdi:raspberry-pi
+              - name: HassOS
+              - colorstyle: "[[[
+                  if (entity.state < 60) return 'lime';
+                  if (entity.state >= 60 && entity.state < 80) return 'orange';
+                  else return 'red';
+                  ]]]"
+              - tempfield: "[[[
+                  return `<ha-icon icon='mdi:thermometer' style='width: 12px; height: 12px; color: yellow;'></ha-icon>
+                  <span>${entity.state}°C</span>`
+                  ]]]"
+              - cpufield: "[[[
+                  return `<ha-icon icon='mdi:server' style='width: 12px; height: 12px; color: deepskyblue;'></ha-icon>
+                  <span>CPU: <span style='color: var(--text-color-sensor);'>${states['sensor.processor_use'].state}%</span></span>`
+                  ]]]"
+              - ramfield: "[[[
+                  return `<ha-icon icon='mdi:memory' style='width: 12px; height: 12px; color: deepskyblue;'></ha-icon>
+                  <span>RAM: <span style='color: var(--text-color-sensor);'>${states['sensor.memory_use_percent'].state}%</span></span>`
+                  ]]]"
+              - sdfield: "[[[
+                  return `<ha-icon icon='mdi:harddisk' style='width: 12px; height: 12px; color: deepskyblue;'></ha-icon>
+                  <span>SD: <span style='color: var(--text-color-sensor);'>${states['sensor.disk_use_percent'].state}%</span></span>`
+                  ]]]"
+              - cpustyle: "[[[
+                  if (states['sensor.processor_use'].state < 60) return 'lime';
+                  if (states['sensor.processor_use'].state >= 60 && states['sensor.processor_use'].state < 80) return 'orange';
+                  else return 'magenta';
+                  ]]]"
+              - ramstyle: "[[[
+                  if (states['sensor.memory_use_percent'].state < 60) return 'lime';
+                  if (states['sensor.memory_use_percent'].state >= 60 && states['sensor.memory_use_percent'].state < 80) return 'orange';
+                  else return 'magenta';
+                  ]]]"
+              - sdstyle: "[[[
+                  if (states['sensor.disk_use_percent'].state < 60) return 'lime';
+                  if (states['sensor.disk_use_percent'].state >= 60 && states['sensor.disk_use_percent'].state < 80) return 'orange';
+                  else return 'magenta';
+                  ]]]"
+
+      - type: "horizontal-stack"
+        cards:
+          - template: button
+            type: "custom:decluttering-card"
+            variables:
+              - entity: "sensor.nut_ups_status_data"
+              - icon: mdi:car-battery
+              - name: UPS
+              - colorstyle: "[[[
+                  if (entity.state == 'OL') return 'lime';
+                  if (entity.state == 'OB') return 'yellow';
+                  if (entity.state == 'LB') return 'magenta';
+                  if (entity.state == 'OB LB') return 'red';
+                  if (entity.state == 'OL LB') return 'cyan';
+                  else return 'deepskyblue';
+                  ]]]"
+              - tempfield: "[[[
+                  return `<ha-icon icon='mdi:flash-outline' style='width: 12px; height: 12px; color: yellow;'></ha-icon>
+                  <span style='align: left;'>${Math.round(states['sensor.nut_ups_input_voltage'].state)}v</span>
+                  <br>
+                  <ha-icon icon='mdi:flash-outline' style='width: 12px; height: 12px; color: yellow;'></ha-icon>
+                  <span style='align: left;'>${Math.round(states['sensor.nut_ups_output_voltage'].state)}v</span>`;
+                  ]]]"
+              - cpufield: "[[[
+                  return `<ha-icon icon='mdi:flash' style='width: 12px; height: 12px; color: deepskyblue;'></ha-icon>
+                  <span>State: <span style='color: var(--text-color-sensor);'>${states['sensor.nut_ups_status_data'].state}</span></span>`
+                  ]]]"
+              - ramfield: "[[[
+                  return `<ha-icon icon='mdi:flash' style='width: 12px; height: 12px; color: deepskyblue;'></ha-icon>
+                  <span>Battery: <span style='color: var(--text-color-sensor);'>${states['sensor.nut_ups_battery_charge'].state}%</span></span>`
+                  ]]]"
+              - sdfield: "[[[
+                  return `<ha-icon icon='mdi:flash' style='width: 12px; height: 12px; color: deepskyblue;'></ha-icon>
+                  <span>Load: <span style='color: var(--text-color-sensor);'>${states['sensor.nut_ups_load'].state}%</span></span>`
+                  ]]]"
+              - cpustyle: "[[[
+                  if (entity.state == 'OL') return 'lime';
+                  if (entity.state == 'OB') return 'yellow';
+                  if (entity.state == 'LB') return 'magenta';
+                  if (entity.state == 'OB LB') return 'red';
+                  if (entity.state == 'OL LB') return 'cyan';
+                  ]]]"
+              - ramstyle: "[[[
+                  if (states['sensor.nut_ups_battery_charge'].state < 40) return 'magenta';
+                  if (states['sensor.nut_ups_battery_charge'].state >= 40 && states['sensor.nut_ups_battery_charge'].state < 60) return 'orange';
+                  else return 'lime';
+                  ]]]"
+              - sdstyle: "[[[
+                  if (states['sensor.nut_ups_load'].state < 40) return 'lime';
+                  if (states['sensor.nut_ups_load'].state >= 40 && states['sensor.nut_ups_load'].state < 60) return 'orange';
+                  else return 'magenta';
+                  ]]]"
+
+          - template: button
+            type: "custom:decluttering-card"
+            variables:
+              - entity: "sensor.pi_meye_ip"
+              - icon: mdi:lan
+              - name: DSL
+              - colorstyle: "[[[
+                  if (states['sensor.dsl_dl'].state < 20) return 'red';
+                  if (states['sensor.dsl_dl'].state >= 20 && states['sensor.dsl_dl'].state < 40) return 'orange';
+                  else return 'lime';
+                  ]]]"
+              - tempfield: "[[[
+                  return `<ha-icon icon='mdi:download-network-outline' style='width: 12px; height: 12px; color: yellow;'></ha-icon>
+                  <span style='align: left;'>${states['sensor.dsl_ul'].state}mb</span>
+                  <br>
+                  <ha-icon icon='mdi:upload-network-outline' style='width: 12px; height: 12px; color: yellow;'></ha-icon>
+                  <span style='align: left;'>${states['sensor.dsl_dl'].state}mb</span>`;
+                  ]]]"
+              - cpufield: "[[[
+                  return `<ha-icon icon='mdi:ip-network' style='width: 12px; height: 12px; color: deepskyblue;'></ha-icon>
+                  <span><span style='color: var(--text-color-sensor);'>${states['sensor.pi_meye_ip'].state}</span></span>`
+                  ]]]"
+              - ramfield: "[[[
+                  return `<ha-icon icon='mdi:flash' style='width: 12px; height: 12px; color: deepskyblue;'></ha-icon>
+                  <span>Ping: <span style='color: var(--text-color-sensor);'>${states['sensor.pi_meye_ping'].state}ms</span></span>`
+                  ]]]"
+              - sdfield: ""
+              - ramstyle: "[[[
+                  if (states['sensor.pi_meye_ping'].state < 100) return 'lime';
+                  if (states['sensor.pi_meye_ping'].state >= 100 && states['sensor.pi_meye_ping'].state < 150) return 'orange';
+                  else return 'magenta';
+                  ]]]"
+
+          - template: button
+            type: "custom:decluttering-card"
+            variables:
+              - icon: mdi:raspberry-pi
+              - entity: sensor.omv_temp
+              - name: OMV
+              - colorstyle: "[[[
+                  if (entity.state < 60) return 'lime';
+                  if (entity.state >= 60 && entity.state < 80) return 'orange';
+                  else return 'red';
+                  ]]]"
+              - tempfield: "[[[
+                  return `<ha-icon icon='mdi:thermometer' style='width: 12px; height: 12px; color: yellow;'></ha-icon>
+                  <span>${entity.state}°C</span>`
+                  ]]]"
+              - cpufield: "[[[
+                  return `<ha-icon icon='mdi:server' style='width: 12px; height: 12px; color: deepskyblue;'></ha-icon>
+                  <span>CPU: <span style='color: var(--text-color-sensor);'>${states['sensor.omv_cpu'].state}%</span></span>`
+                  ]]]"
+              - ramfield: "[[[
+                  return `<ha-icon icon='mdi:memory' style='width: 12px; height: 12px; color: deepskyblue;'></ha-icon>
+                  <span>RAM: <span style='color: var(--text-color-sensor);'>${states['sensor.omv_ram'].state}%</span></span>`
+                  ]]]"
+              - sdfield: "[[[
+                  return `<ha-icon icon='mdi:harddisk' style='width: 12px; height: 12px; color: deepskyblue;'></ha-icon>
+                  <span>HDD: <span style='color: var(--text-color-sensor);'>${states['sensor.omv_sd'].state}%</span></span>`
+                  ]]]"
+              - cpustyle: "[[[
+                  if (states['sensor.omv_cpu'].state < 60) return 'lime';
+                  if (states['sensor.omv_cpu'].state >= 60 && states['sensor.omv_cpu'].state < 80) return 'orange';
+                  else return 'magenta';
+                  ]]]"
+              - ramstyle: "[[[
+                  if (states['sensor.omv_ram'].state < 60) return 'lime';
+                  if (states['sensor.omv_ram'].state >= 60 && states['sensor.omv_ram'].state < 80) return 'orange';
+                  else return 'magenta';
+                  ]]]"
+              - sdstyle: "[[[
+                  if (states['sensor.omv_sd'].state < 60) return 'lime';
+                  if (states['sensor.omv_sd'].state >= 60 && states['sensor.omv_sd'].state < 80) return 'orange';
+                  else return 'magenta';
+                  ]]]"
+
+  - type: "vertical-stack" #col2
+    cards:
+      - type: "horizontal-stack"
+        cards:
+          - template: button
+            type: "custom:button-card"
+            styles:
+              img_cell:
+                - margin: none
+                - align-items: flex-end
+              icon:
+                - width: 100%
+                - border-radius: 10px
+              grid:
+                - grid-template-areas: '"icn temp" "n n" "i i"'
+                - grid-template-columns: 1fr 1fr
+                - grid-template-rows: 1fr 1fr 3fr
+              name:
+                - padding-top: 4px
+            custom_fields:
+              temp: >
+                [[[
+                    return `<ha-icon icon='mdi:motion-sensor' style='width: 12px; height: 12px; color: yellow;'></ha-icon>
+                    <span>${states['switch.meye_cam2_motion'].state}</span>`
+                    ]]]
+              icn: >
+                [[[
+                    if (states['binary_sensor.motion_cam_out'].state == 'on') return "<div style='text-align: start;'><ha-icon icon='mdi:cctv' style='color: lime; animation: blink 2s ease infinite;'></ha-icon></div>";
+                    else return "<div style='text-align: start;'><ha-icon icon='mdi:cctv' style='color: deepskyblue;'></ha-icon></div>";
+                    ]]]
+            entity: camera.outside
+            show_entity_picture: "true"
+
+          - template: button
+            type: "custom:button-card"
+            styles:
+              name:
+                - display: none
+              grid:
+                - grid-template-areas: '"iframe"'
+                - grid-template-columns: 1fr
+                - grid-template-rows: 1fr
+            custom_fields:
+              iframe: '<iframe src="http://IP:PORT/d-solo/OhD-zOigk/electricity?orgId=1&panelId=17" style="top: 4%; left: 4%; width: 92%; height: 92%; position: absolute; border: none; border-radius: 10%;"></iframe>'
+
+      - type: "horizontal-stack"
+        cards:
+          - template: button
+            type: "custom:button-card"
+            styles:
+              name:
+                - display: none
+              grid:
+                - grid-template-areas: '"iframe"'
+                - grid-template-columns: 1fr
+                - grid-template-rows: 1fr
+            custom_fields:
+              iframe: '<iframe src="http://IP:PORT/d-solo/nLEnrrigk/rpi?orgId=1&panelId=9" style="top: 4%; left: 4%; width: 92%; height: 92%; position: absolute; border: none; padding-right: 10px; border-radius: 10%;"></iframe>'
+
+          - template: button
+            type: "custom:button-card"
+            styles:
+              name:
+                - display: none
+              grid:
+                - grid-template-areas: '"iframe"'
+                - grid-template-columns: 1fr
+                - grid-template-rows: 1fr
+            custom_fields:
+              iframe: '<iframe src="https://embed.windy.com/embed2.html" style="top: 4%; left: 4%; width: 92%; height: 92%; position: absolute; border: none; padding-right: 10px; border-radius: 10%;"></iframe>'
+
+  - type: "vertical-stack" #col3
+    cards:
+      - type: "horizontal-stack"
+        cards:
+          - template: button
+            type: "custom:button-card"
+            styles:
+              name:
+                - display: none
+              grid:
+                - grid-template-areas: '"iframe"'
+                - grid-template-columns: 1fr
+                - grid-template-rows: 1fr
+            custom_fields:
+              iframe: '<iframe src="http://IP:PORT/d-solo/c64kLkkgk/buttons?orgId=1&panelId=2" style="top: 4%; left: 4%; width: 92%; height: 92%; position: absolute; border: none; padding-right: 10px; border-radius: 10%;"></iframe>'
+
+          - template: button
+            type: "custom:button-card"
+            styles:
+              name:
+                - display: none
+              grid:
+                - grid-template-areas: '"iframe"'
+                - grid-template-columns: 1fr
+                - grid-template-rows: 1fr
+            custom_fields:
+              iframe: '<iframe src="http://IP:PORT/d-solo/c64kLkkgk/buttons?orgId=1&panelId=2" style="top: 4%; left: 4%; width: 92%; height: 92%; position: absolute; border: none; padding-right: 10px; border-radius: 10%;"></iframe>'
+
+      - type: "horizontal-stack"
+        cards:
+          - template: button
+            type: "custom:button-card"
+            styles:
+              name:
+                - display: none
+              grid:
+                - grid-template-areas: '"iframe"'
+                - grid-template-columns: 1fr
+                - grid-template-rows: 1fr
+            custom_fields:
+              iframe: '<iframe src="http://IP:PORT/d-solo/c64kLkkgk/buttons?orgId=1&panelId=4" style="top: 4%; left: 4%; width: 92%; height: 92%; position: absolute; border: none; padding-right: 10px; border-radius: 10%;"></iframe>'
+
+          - template: button
+            type: "custom:button-card"
+            styles:
+              name:
+                - display: none
+              grid:
+                - grid-template-areas: '"iframe"'
+                - grid-template-columns: 1fr
+                - grid-template-rows: 1fr
+            custom_fields:
+              iframe: '<iframe src="http://IP:PORT/d-solo/c64kLkkgk/buttons?orgId=1&panelId=4" style="top: 4%; left: 4%; width: 92%; height: 92%; position: absolute; border: none; padding-right: 10px; border-radius: 10%;"></iframe>'

@@ -1,0 +1,6 @@
+resources: !include lovelace/resources.yaml
+decluttering_templates: !include lovelace/decluttering_templates.yaml
+button_card_templates: !include lovelace/button_card_templates.yaml
+title: Home
+views:
+  - !include lovelace/main.yaml
